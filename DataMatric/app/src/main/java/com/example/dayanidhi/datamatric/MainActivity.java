@@ -1,13 +1,18 @@
 package com.example.dayanidhi.datamatric;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.TrafficStats;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,8 +24,10 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +36,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Comparator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ActionBarActivity {
 
     private TextView tvSupported, tvDataUsageWiFi, tvDataUsageMobile, tvDataUsageTotal;
     private ListView lvApplications;
@@ -37,24 +44,62 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressBar;
     private Handler mHandler = new Handler();
     private long dataUsageTotalLast = 0;
-    String ss,web;
+    String ss="0",web1;
     ArrayAdapter<ApplicationItem> adapterApplications;
-    int a,b,c;
+    int a=0,b=0,c=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
+
+/*
+
+        ActionBar mActionBar = getActionBar();
+       mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+
+        View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
+        mTitleTextView.setText("My Own Title");
+
+        ImageButton imageButton = (ImageButton) mCustomView
+                .findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Refresh Clicked!",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
+
+
+
+*/
         tvSupported = (TextView) findViewById(R.id.tvSupported);
         tvDataUsageWiFi = (TextView) findViewById(R.id.tvDataUsageWiFi);
         tvDataUsageMobile = (TextView) findViewById(R.id.tvDataUsageMobile);
         tvDataUsageTotal = (TextView) findViewById(R.id.tvDataUsageTotal);
-
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, Data_Table.class);
+                startActivity(i);
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
         final WebView browser = (WebView) findViewById(R.id.webview);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_timeline_white_24dp);
+       //getSupportActionBar().setDisplayShowHomeEnabled(true);
+      //  getSupportActionBar().setIcon(R.drawable.juspay_icon);
 
         WebSettings settings = browser.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -62,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 
-        progressBar = ProgressDialog.show(MainActivity.this, "WebView Example", "Loading...");
+        progressBar = ProgressDialog.show(MainActivity.this, "", "Loading...");
 
         browser.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -71,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("---------->b"+b);
                 c=b-a;
 
-                System.out.println("result=>web="+web+"-->size :"+c+"kb");
+                System.out.println("result=>web="+web1+"-->size :"+c+"kb");
                 view.loadUrl(url);
                 return true;
             }
@@ -83,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("---------->a"+a);
                     String host = ConvertToUrl(url).getHost();
                     System.out.println(host + "");
-                web=host;
+                web1=host;
                     if (progressBar.isShowing()) {
                     progressBar.dismiss();
                 }
@@ -126,8 +171,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
     public Handler handler = new Handler();
@@ -173,12 +218,13 @@ public class MainActivity extends AppCompatActivity {
                         ),
                         null, null, null
                 );
-                if(app.getApplicationLabel(getApplicationContext().getPackageManager()).equals("DataMatric")) {
-
+                if(app.getApplicationLabel(getApplicationContext().getPackageManager()).equals("DataMetric")) {
                     tvAppName.setText(app.getApplicationLabel(getApplicationContext().getPackageManager()));
-               // System.out.println(app.getApplicationLabel(getApplicationContext().getPackageManager()) + "===>");
-                tvAppTraffic.setText(Integer.toString(app.getTotalUsageKb()) + " Kb");
-             //   if(app.getApplicationLabel(getApplicationContext().getPackageManager()).equals("DataMatric")) {
+              // System.out.println(app.getApplicationLabel(getApplicationContext().getPackageManager()) + "===>");
+                    Toast.makeText(MainActivity.this, Integer.toString(app.getTotalUsageKb()), Toast.LENGTH_SHORT).show();
+
+                    tvAppTraffic.setText(Integer.toString(app.getTotalUsageKb()) + " Kb");
+              //  if(app.getApplicationLabel(getApplicationContext().getPackageManager()).equals("DataMetric")) {
 
                     ss = app.getTotalUsageKb() + "";
 
