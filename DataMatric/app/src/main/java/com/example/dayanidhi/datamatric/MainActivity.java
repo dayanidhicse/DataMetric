@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressBar;
     private Handler mHandler = new Handler();
     private long dataUsageTotalLast = 0;
-    String ss;
+    String ss,web;
     ArrayAdapter<ApplicationItem> adapterApplications;
-
+    int a,b,c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +50,6 @@ public class MainActivity extends AppCompatActivity {
         tvDataUsageWiFi = (TextView) findViewById(R.id.tvDataUsageWiFi);
         tvDataUsageMobile = (TextView) findViewById(R.id.tvDataUsageMobile);
         tvDataUsageTotal = (TextView) findViewById(R.id.tvDataUsageTotal);
-//
-
-
 
         final WebView browser = (WebView) findViewById(R.id.webview);
 
@@ -69,16 +66,25 @@ public class MainActivity extends AppCompatActivity {
 
         browser.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.i(TAG, "Processing webview url click...");
+                Log.i(TAG, "Processing webview url click..."+">>>>>>"+ss);
+                b = Integer.parseInt(ss);
+                System.out.println("---------->b"+b);
+                c=b-a;
+
+                System.out.println("result=>web="+web+"-->size :"+c+"kb");
                 view.loadUrl(url);
                 return true;
             }
 
             public void onPageFinished(WebView view, String url) {
-                Log.i(TAG, "Finished loading URL: " + url+"====>"+ss);
-                String host = ConvertToUrl(url).getHost();
-                System.out.println(host + "");
-                if (progressBar.isShowing()) {
+
+                Log.i(TAG, "Finished loading URL: " + url + "=======>" + ss);
+                a = Integer.parseInt(ss);
+                System.out.println("---------->a"+a);
+                    String host = ConvertToUrl(url).getHost();
+                    System.out.println(host + "");
+                web=host;
+                    if (progressBar.isShowing()) {
                     progressBar.dismiss();
                 }
             }
@@ -107,7 +113,9 @@ public class MainActivity extends AppCompatActivity {
             initAdapter();
             lvApplications = (ListView) findViewById(R.id.lvInstallApplication);
             lvApplications.setAdapter(adapterApplications);
+
         } else {
+
             tvSupported.setVisibility(View.VISIBLE);
         }
 
