@@ -58,67 +58,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-/*
 
-        ActionBar mActionBar = getActionBar();
-       mActionBar.setDisplayShowHomeEnabled(true);
-        mActionBar.setDisplayShowTitleEnabled(true);
-        LayoutInflater mInflater = LayoutInflater.from(this);
-
-        View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
-        mTitleTextView.setText("My Own Title");
-
-        ImageButton imageButton = (ImageButton) mCustomView
-                .findViewById(R.id.imageButton);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Refresh Clicked!",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
-
-
-
-*/
         tvSupported = (TextView) findViewById(R.id.tvSupported);
         tvDataUsageWiFi = (TextView) findViewById(R.id.tvDataUsageWiFi);
         tvDataUsageMobile = (TextView) findViewById(R.id.tvDataUsageMobile);
         tvDataUsageTotal = (TextView) findViewById(R.id.tvDataUsageTotal);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                b = Integer.parseInt(ss);
-                c=b-a;
-                if(arrayList.contains(web1)){
-                    int index=arrayList.indexOf(web1);
-                    int old=Integer.parseInt(aa[index]);
-                    old+=c;
-                    aa[index]=old+"";
-                    //arrayList.set(index,""+old);
-                }
-                else{
-                    arrayList.add(web1);
-                    aa[ii]=""+c;
-                    ii++;
-
-                }
-
-                Intent i = new Intent(MainActivity.this, Data_Table.class);
-                i.putExtra("Web", arrayList);
-                i.putExtra("Data",aa);
-                i.putExtra("size",ii);
-                startActivity(i);
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
-
 
         final WebView browser = (WebView) findViewById(R.id.webview);
 
@@ -188,6 +132,38 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         browser.loadUrl("https://www.google.co.in/");
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                b = Integer.parseInt(ss);
+                c = b - a;
+                //System.out.println("===="+c+"===");
+                if (arrayList.contains(web1)) {
+                    int index = arrayList.indexOf(web1);
+                    int old = Integer.parseInt(aa[index]);
+                    old += c;
+                    aa[index] = old + "";
+                    //arrayList.set(index,""+old);
+                } else {
+                    arrayList.add(web1);
+                    aa[ii] = "" + c;
+                    ii++;
+
+                }
+
+                Intent i = new Intent(MainActivity.this, Data_Table.class);
+                i.putExtra("Web", arrayList);
+                i.putExtra("Data", aa);
+                i.putExtra("size", ii);
+                startActivity(i);
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+
+
+
         FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +171,7 @@ public class MainActivity extends ActionBarActivity {
                 EditText et=(EditText) findViewById(R.id.et);
               //  String host11 = ConvertToUrl(et.getText().toString()).getHost();
                 browser.loadUrl("http://"+et.getText().toString());
-                Snackbar.make(view,"abc"+et.getText().toString(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(view,et.getText().toString(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -234,7 +210,7 @@ public class MainActivity extends ActionBarActivity {
                 dataUsageTotalLast = total;
                 updateAdapter();
             }
-            handler.postDelayed(runnable, 5000);
+            handler.postDelayed(runnable, 1000);
         }
     };
 

@@ -32,7 +32,7 @@ TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
 
 TextView imageView = (TextView) rowView.findViewById(R.id.img);
 
-        txtTitle.setText(web[position]);
+        txtTitle.setText(web[position]+" "+"kb");
         imageView.setText(imageId[position]);
         return rowView;
     }

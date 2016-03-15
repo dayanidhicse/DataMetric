@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/popup_element"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="#444444"
+        android:padding="10sp" >
+
+        <TextView
+            android:id="@+id/txtView"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter By"
+
+            android:textColor="@android:color/white"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/btn_close_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/radioButton2"
+            android:layout_centerHorizontal="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Day"
+        android:id="@+id/radioButton"
+
+        android:textColor="@android:color/white"
+        android:layout_above="@+id/btn_close_popup"
+        android:layout_toStartOf="@+id/btn_close_popup" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Week"
+android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:id="@+id/radioButton2"/>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Month"
+        android:textColor="@android:color/white"
+        android:id="@+id/radioButton3"
+        android:layout_alignTop="@+id/radioButton2"
+        android:layout_toEndOf="@+id/btn_close_popup" />
+
+</RelativeLayout>
+
