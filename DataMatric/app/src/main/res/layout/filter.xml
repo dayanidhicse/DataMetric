@@ -34,39 +34,50 @@ android:textSize="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ok"
-        android:layout_marginTop="5dp"
 
         android:textColor="@android:color/white"
-        android:layout_below="@+id/radioButton2"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/txtView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="91dp" />
 
+<RadioGroup
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_below="@+id/txtView"
+    android:orientation="horizontal"
+    android:id="@+id/radioGroup">
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Week"
+        android:layout_marginLeft="50dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/radioButton2"
+        android:layout_alignTop="@+id/radioButton3" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:text="Month"
+        android:textColor="@android:color/white"
+        android:id="@+id/radioButton3" />
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Day"
         android:id="@+id/radioButton"
-
+        android:layout_marginLeft="50dp"
         android:textColor="@android:color/white"
-        android:layout_above="@+id/btn_close_popup"
-        android:layout_toStartOf="@+id/btn_close_popup" />
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/radioButton3"
+        android:layout_marginStart="67dp" />
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Week"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"
-        android:textColor="@android:color/white"
-        android:id="@+id/radioButton2"/>
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Month"
-        android:textColor="@android:color/white"
-        android:id="@+id/radioButton3"
-        android:layout_alignTop="@+id/radioButton2"
-        android:layout_toEndOf="@+id/btn_close_popup" />
+
+</RadioGroup>
+
 
 </RelativeLayout>
 

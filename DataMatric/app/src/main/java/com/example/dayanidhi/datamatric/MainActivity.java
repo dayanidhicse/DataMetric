@@ -86,8 +86,10 @@ public class MainActivity extends ActionBarActivity {
         browser.getSettings().setCacheMode( WebSettings.LOAD_DEFAULT ); // load online by default
 
         if ( !isNetworkAvailable() ) { // loading offline
+           // System.out.println("--------------------------------");
             browser.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
         }
+      // else {System.out.println("++++++++++++++++++++++++++++++++++++++");}
 
         ////
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -99,10 +101,10 @@ public class MainActivity extends ActionBarActivity {
                 progressBar.show();
                 Log.i(TAG, "Processing webview url click..." + ">>>>>>" + ss);
                 b = Integer.parseInt(ss);
-                System.out.println("---------->b" + b);
+             //   System.out.println("---------->b" + b);
                 c = b - a;
 
-                System.out.println("result=>web=" + web1 + "-->size :" + c + "kb");
+            //    System.out.println("result=>web=" + web1 + "-->size :" + c + "kb");
                 //  aa[ii]=c+"";
 
                 //ab[ii]=web1;
@@ -126,9 +128,9 @@ public class MainActivity extends ActionBarActivity {
                 progressBar.dismiss();
                 Log.i(TAG, "Finished loading URL: " + url + "=======>" + ss);
                 a = Integer.parseInt(ss);
-                System.out.println("---------->a" + a);
+               // System.out.println("---------->a" + a);
                 String host = ConvertToUrl(url).getHost();
-                System.out.println(host + "");
+                //System.out.println(host + "");
                 web1 = host;
                 if (progressBar.isShowing()) {
                     progressBar.dismiss();
@@ -345,8 +347,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private boolean isNetworkAvailable() {
+
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        //System.out.println("-----------------ddd---------------"+activeNetworkInfo);
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
