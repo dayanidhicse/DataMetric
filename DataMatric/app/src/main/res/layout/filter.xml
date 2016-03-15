@@ -5,28 +5,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="#444444"
+        android:background="#ccaca9a9"
         android:padding="10sp" >
+    <ImageView
+        android:layout_marginTop="15dp"
+        android:id="@+id/btn1_close_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/txtView"
-            android:gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Filter By"
+    <TextView
+        android:id="@+id/txtView"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter By"
+android:textSize="30dp"
+        android:textColor="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-            android:textColor="@android:color/white"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/btn_close_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ok"
+        android:layout_marginTop="5dp"
 
-        <Button
-            android:id="@+id/btn_close_popup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ok"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/radioButton2"
-            android:layout_centerHorizontal="true" />
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/radioButton2"
+        android:layout_centerHorizontal="true" />
 
     <RadioButton
         android:layout_width="wrap_content"
@@ -42,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Week"
-android:layout_marginTop="50dp"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"
         android:id="@+id/radioButton2"/>
@@ -55,6 +67,8 @@ android:layout_marginTop="50dp"
         android:id="@+id/radioButton3"
         android:layout_alignTop="@+id/radioButton2"
         android:layout_toEndOf="@+id/btn_close_popup" />
+
+</RelativeLayout>
 
 </RelativeLayout>
 

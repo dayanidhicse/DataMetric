@@ -55,12 +55,12 @@ public class ApplicationItem {
     }
 
     public int getTotalUsageKb() {
-        return Math.round((tx + rx)/ 1024);
+
+        return Math.round((tx + rx) / 1024);
     }
 
     public String getApplicationLabel(PackageManager _packageManager) {
 
-       // System.out.println("APPPPPPPPPP=====>"+_packageManager.getApplicationLabel(app).toString());
         return _packageManager.getApplicationLabel(app).toString();
     }
 

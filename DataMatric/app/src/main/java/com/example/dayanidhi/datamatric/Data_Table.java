@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -82,6 +83,7 @@ public class Data_Table extends Activity {
 
     private PopupWindow pwindo;
     Button btnClosePopup;
+    ImageView img;
     private void initiatePopupWindow() {
         try {
 // We need to get the instance of the LayoutInflater
@@ -89,11 +91,21 @@ public class Data_Table extends Activity {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.filter,
                     (ViewGroup) findViewById(R.id.popup_element));
-            pwindo = new PopupWindow(layout, 1200, 500, true);
+          //  imageView.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+            pwindo = new PopupWindow(layout, LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT, true);
             pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
             btnClosePopup = (Button) layout.findViewById(R.id.btn_close_popup);
-            btnClosePopup.setOnClickListener(cancel_button_click_listener);
+           img=(ImageView) layout.findViewById(R.id.btn1_close_popup);
+            img.setOnClickListener(cancel_button_click_listener);
+            btnClosePopup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pwindo.dismiss();
+
+                }
+            });
 
         } catch (Exception e) {
             e.printStackTrace();

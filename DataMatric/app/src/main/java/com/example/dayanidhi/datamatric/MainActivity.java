@@ -2,12 +2,16 @@ package com.example.dayanidhi.datamatric;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.TrafficStats;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -16,11 +20,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -51,14 +57,12 @@ public class MainActivity extends ActionBarActivity {
     int a=0,b=0,c=0,ii=0;
     String aa[]=new String[51];
     String ab[]=new String[51];
+    EditText et;
     ArrayList<String> arrayList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
         tvSupported = (TextView) findViewById(R.id.tvSupported);
         tvDataUsageWiFi = (TextView) findViewById(R.id.tvDataUsageWiFi);
         tvDataUsageMobile = (TextView) findViewById(R.id.tvDataUsageMobile);
@@ -72,32 +76,45 @@ public class MainActivity extends ActionBarActivity {
         WebSettings settings = browser.getSettings();
         settings.setJavaScriptEnabled(true);
         browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+///
+        //WebView webView = new WebView( context );
+        browser.getSettings().setAppCacheMaxSize( 5 * 1024 * 1024 ); // 5MB
+        browser.getSettings().setAppCachePath( getApplicationContext().getCacheDir().getAbsolutePath() );
+        browser.getSettings().setAllowFileAccess( true );
+        browser.getSettings().setAppCacheEnabled( true );
+        browser.getSettings().setJavaScriptEnabled( true );
+        browser.getSettings().setCacheMode( WebSettings.LOAD_DEFAULT ); // load online by default
 
+        if ( !isNetworkAvailable() ) { // loading offline
+            browser.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
+        }
+
+        ////
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 
         progressBar = ProgressDialog.show(MainActivity.this, "", "Loading...");
 
         browser.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.i(TAG, "Processing webview url click..."+">>>>>>"+ss);
+                progressBar.show();
+                Log.i(TAG, "Processing webview url click..." + ">>>>>>" + ss);
                 b = Integer.parseInt(ss);
-                System.out.println("---------->b"+b);
-                c=b-a;
+                System.out.println("---------->b" + b);
+                c = b - a;
 
-                System.out.println("result=>web="+web1+"-->size :"+c+"kb");
-              //  aa[ii]=c+"";
+                System.out.println("result=>web=" + web1 + "-->size :" + c + "kb");
+                //  aa[ii]=c+"";
 
                 //ab[ii]=web1;
-                if(arrayList.contains(web1)){
-                    int index=arrayList.indexOf(web1);
-                    int old=Integer.parseInt(aa[index]);
-                    old+=c;
-                    aa[index]=old+"";
+                if (arrayList.contains(web1)) {
+                    int index = arrayList.indexOf(web1);
+                    int old = Integer.parseInt(aa[index]);
+                    old += c;
+                    aa[index] = old + "";
                     //arrayList.set(index,""+old);
-                }
-                else{
+                } else {
                     arrayList.add(web1);
-                    aa[ii]=""+c;
+                    aa[ii] = "" + c;
                     ii++;
 
                 }
@@ -106,14 +123,14 @@ public class MainActivity extends ActionBarActivity {
             }
 
             public void onPageFinished(WebView view, String url) {
-
+                progressBar.dismiss();
                 Log.i(TAG, "Finished loading URL: " + url + "=======>" + ss);
                 a = Integer.parseInt(ss);
-                System.out.println("---------->a"+a);
-                    String host = ConvertToUrl(url).getHost();
-                    System.out.println(host + "");
-                web1=host;
-                    if (progressBar.isShowing()) {
+                System.out.println("---------->a" + a);
+                String host = ConvertToUrl(url).getHost();
+                System.out.println(host + "");
+                web1 = host;
+                if (progressBar.isShowing()) {
                     progressBar.dismiss();
                 }
             }
@@ -123,7 +140,7 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(MainActivity.this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
                 alertDialog.setTitle("Error");
                 alertDialog.setMessage(description);
-                alertDialog.setButton("Ok",new DialogInterface.OnClickListener() {
+                alertDialog.setButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         return;
                     }
@@ -162,16 +179,39 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        et=(EditText) findViewById(R.id.et);
+       et.setOnKeyListener(new View.OnKeyListener() {
 
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+        // If the event is a key-down event on the "enter" button
+        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            // Perform action on key press
 
+            browser.loadUrl("http://www.google.com/#q="+et.getText().toString());
+            et.setText("");
+            return true;
+        }
+        return false;
+    }
+});
         FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText et=(EditText) findViewById(R.id.et);
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
               //  String host11 = ConvertToUrl(et.getText().toString()).getHost();
-                browser.loadUrl("http://"+et.getText().toString());
-                Snackbar.make(view,et.getText().toString(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                browser.loadUrl("http://www.google.com/#q="+et.getText().toString());
+                et.setText("");
+               // Snackbar.make(view,et.getText().toString(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -302,5 +342,11 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         adapterApplications.notifyDataSetChanged();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
