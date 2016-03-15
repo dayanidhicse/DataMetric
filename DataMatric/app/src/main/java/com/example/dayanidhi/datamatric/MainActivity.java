@@ -26,6 +26,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class MainActivity extends ActionBarActivity {
@@ -46,8 +48,10 @@ public class MainActivity extends ActionBarActivity {
     private long dataUsageTotalLast = 0;
     String ss="0",web1;
     ArrayAdapter<ApplicationItem> adapterApplications;
-    int a=0,b=0,c=0;
-
+    int a=0,b=0,c=0,ii=0;
+    String aa[]=new String[51];
+    String ab[]=new String[51];
+    ArrayList<String> arrayList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,10 +96,15 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, Data_Table.class);
+                i.putExtra("Web", arrayList);
+                i.putExtra("Data",aa);
+                i.putExtra("size",ii);
                 startActivity(i);
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
+
+
         final WebView browser = (WebView) findViewById(R.id.webview);
 
        //getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -116,7 +125,24 @@ public class MainActivity extends ActionBarActivity {
                 System.out.println("---------->b"+b);
                 c=b-a;
 
+
                 System.out.println("result=>web="+web1+"-->size :"+c+"kb");
+              //  aa[ii]=c+"";
+
+                //ab[ii]=web1;
+                if(arrayList.contains(web1)){
+                    int index=arrayList.indexOf(web1);
+                    int old=Integer.parseInt(aa[index]);
+                    old+=c;
+                    aa[index]=old+"";
+                    //arrayList.set(index,""+old);
+                }
+                else{
+                    arrayList.add(web1);
+                    aa[ii]=""+c;
+                    ii++;
+
+                }
                 view.loadUrl(url);
                 return true;
             }
@@ -148,7 +174,16 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         browser.loadUrl("https://www.google.co.in/");
+        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText et=(EditText) findViewById(R.id.et);
 
+                browser.loadUrl(et.getText().toString());
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
 
 
 ///
@@ -221,7 +256,7 @@ public class MainActivity extends ActionBarActivity {
                 if(app.getApplicationLabel(getApplicationContext().getPackageManager()).equals("DataMetric")) {
                     tvAppName.setText(app.getApplicationLabel(getApplicationContext().getPackageManager()));
               // System.out.println(app.getApplicationLabel(getApplicationContext().getPackageManager()) + "===>");
-                    Toast.makeText(MainActivity.this, Integer.toString(app.getTotalUsageKb()), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(MainActivity.this, Integer.toString(app.getTotalUsageKb()), Toast.LENGTH_SHORT).show();
 
                     tvAppTraffic.setText(Integer.toString(app.getTotalUsageKb()) + " Kb");
               //  if(app.getApplicationLabel(getApplicationContext().getPackageManager()).equals("DataMetric")) {

@@ -7,7 +7,7 @@
             android:paddingTop="20dp"
             android:paddingLeft="5dp"
             android:id="@+id/img"
-            android:text="Www.google.co.in"
+            android:text=""
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="50dp"/>

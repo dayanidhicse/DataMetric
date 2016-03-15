@@ -29,7 +29,7 @@ TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
 
 TextView imageView = (TextView) rowView.findViewById(R.id.img);
 txtTitle.setText(web[position]);
-
+imageView.setText(imageId[position]);
 //imageView.setImageResource(imageId[position]);
 return rowView;
 }

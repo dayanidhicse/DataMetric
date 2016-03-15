@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true" />
     <TextView
         android:id="@+id/txt"
-        android:text="JusPay Data Matric"
+        android:text="JusPay Data Metric"
         android:textSize="30sp"
         android:layout_marginTop="22dp"
         android:layout_marginBottom="10dp"
