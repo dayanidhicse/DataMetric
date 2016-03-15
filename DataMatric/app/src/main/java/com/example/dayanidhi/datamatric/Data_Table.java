@@ -1,6 +1,7 @@
 package com.example.dayanidhi.datamatric;
 
 import android.app.Activity;
+import android.content.SyncAdapterType;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +25,8 @@ public class Data_Table extends Activity {
     String web[]=new String[51];
     String imageId[]=new String[51];
     ArrayList<String> arrayList=new ArrayList<>();
+    ArrayList<String> we=new ArrayList<>();
+    ArrayList<String> da=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,20 +38,18 @@ public class Data_Table extends Activity {
             imageId[i++]=val;
         }
         int ii = getIntent().getExtras().getInt("size");
-       /* for(int i=0;i<ii;i++)
-        {int temp=Integer.parseInt(web[i]);
-            for(int j=i+1;j<ii;j++){
+      //  System.out.println("--------"+ii+"--------");
+        String[] webb =new String[ii];
+        String[] imageidd =new String[ii];
+       for(int ia=0;ia<ii;ia++)
+        {
+            webb[ia]=web[ia];
+            imageidd[ia]=imageId[ia];
+        }
 
-                    if (imageId[i].equals(imageId[j])) {
-                        imageId[j] = null;
-                        temp = temp + Integer.parseInt(web[i]);
-                    }
-
-            }
-            System.out.println(temp + "====");
-        }*/
         CustomList adapter1 = new
-                CustomList(Data_Table.this, web, imageId);
+                CustomList(Data_Table.this, webb, imageidd);
+
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter1);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

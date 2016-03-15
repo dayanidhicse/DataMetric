@@ -58,7 +58,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-
 /*
 
         ActionBar mActionBar = getActionBar();
@@ -95,6 +94,22 @@ public class MainActivity extends ActionBarActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                b = Integer.parseInt(ss);
+                c=b-a;
+                if(arrayList.contains(web1)){
+                    int index=arrayList.indexOf(web1);
+                    int old=Integer.parseInt(aa[index]);
+                    old+=c;
+                    aa[index]=old+"";
+                    //arrayList.set(index,""+old);
+                }
+                else{
+                    arrayList.add(web1);
+                    aa[ii]=""+c;
+                    ii++;
+
+                }
+
                 Intent i = new Intent(MainActivity.this, Data_Table.class);
                 i.putExtra("Web", arrayList);
                 i.putExtra("Data",aa);
@@ -124,7 +139,6 @@ public class MainActivity extends ActionBarActivity {
                 b = Integer.parseInt(ss);
                 System.out.println("---------->b"+b);
                 c=b-a;
-
 
                 System.out.println("result=>web="+web1+"-->size :"+c+"kb");
               //  aa[ii]=c+"";
@@ -179,9 +193,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 EditText et=(EditText) findViewById(R.id.et);
-
-                browser.loadUrl(et.getText().toString());
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+              //  String host11 = ConvertToUrl(et.getText().toString()).getHost();
+                browser.loadUrl("http://"+et.getText().toString());
+                Snackbar.make(view,"abc"+et.getText().toString(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -198,8 +212,6 @@ public class MainActivity extends ActionBarActivity {
 
             tvSupported.setVisibility(View.VISIBLE);
         }
-
-
 
         ////
     }
