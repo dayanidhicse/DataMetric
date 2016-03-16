@@ -50,29 +50,20 @@ android:textSize="30dp"
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Week"
-        android:layout_marginLeft="50dp"
+        android:text="Month"
+        android:layout_marginLeft="90dp"
         android:textColor="@android:color/white"
-        android:id="@+id/radioButton2"
+        android:id="@+id/radioButton1"
         android:layout_alignTop="@+id/radioButton3" />
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
-        android:text="Month"
+        android:text="Year"
         android:textColor="@android:color/white"
-        android:id="@+id/radioButton3" />
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Day"
-        android:id="@+id/radioButton"
-        android:layout_marginLeft="50dp"
-        android:textColor="@android:color/white"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/radioButton3"
-        android:layout_marginStart="67dp" />
+        android:id="@+id/radioButton2" />
+
 
 
 

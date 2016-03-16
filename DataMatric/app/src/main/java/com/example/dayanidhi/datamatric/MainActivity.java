@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.TrafficStats;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
@@ -44,8 +45,11 @@ import android.widget.Toast;
 
 import java.net.URI;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 
 import static android.widget.Toast.LENGTH_SHORT;
 import static android.widget.Toast.makeText;
@@ -58,20 +62,33 @@ public class MainActivity extends ActionBarActivity {
     private ProgressDialog progressBar;
     private Handler mHandler = new Handler();
     private long dataUsageTotalLast = 0;
-    String ss="0",web1;
-    ArrayAdapter<ApplicationItem> adapterApplications;
+    String ss="0",web1,strDate,stringa,stringb,stringc,stringmy,android_id,datausage;;
+
     int a=0,b=0,c=0,ii=0;
     String aa[]=new String[51];
     String ab[]=new String[51];
     EditText et;
+    DataHandler handler1;
     private long mStartRX = 0;
     private long mStartTX = 0;
     private WebView browser;
+
     ArrayList<String> arrayList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Date now = new Date();
+        Date alsoNow = Calendar.getInstance().getTime();
+        strDate = new SimpleDateFormat("dd-MM-yyyy").format(now);
+        String[] str_array = strDate.split("-");
+        stringa = str_array[0];
+        stringb = str_array[1];
+        stringc=str_array[2];
+        stringmy = stringb+stringc;
+        System.out.println(stringmy);
+        android_id= Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
 
          browser = (WebView) findViewById(R.id.webview);
@@ -128,7 +145,14 @@ public class MainActivity extends ActionBarActivity {
 
                 //    System.out.println("result=>web=" + web1 + "-->size :" + c + "kb");
                 //  aa[ii]=c+"";
+//divahar commit
+                handler1 = new DataHandler(getBaseContext());
+                handler1.open();
+                handler1.searchinsertupdate(android_id, strDate, web1, Integer.toString(c), stringmy, stringb, stringc);
 
+                Toast.makeText(getBaseContext(),"Data Inserted",Toast.LENGTH_LONG).show();
+                handler1.close();
+                //divahar commit finished
                 //ab[ii]=web1;
                 if (arrayList.contains(web1)) {
                     int index = arrayList.indexOf(web1);
