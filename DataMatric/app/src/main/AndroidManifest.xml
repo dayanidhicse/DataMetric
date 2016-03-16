@@ -15,14 +15,16 @@
         <activity
             android:name=".Splash"
             android:icon="@drawable/juspay_icon"
-            android:label="JusPay" >
+            android:label="JusPay"
+            android:theme="@style/AppTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme1"/>
         <activity android:name=".Data_Table" >
         </activity>
 

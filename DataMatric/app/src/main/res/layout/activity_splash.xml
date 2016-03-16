@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="Juspay Data Metric"
+        android:text="Juspay Data Metrics"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
     <TextView

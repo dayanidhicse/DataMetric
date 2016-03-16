@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
@@ -32,9 +33,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +46,9 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -58,21 +64,39 @@ public class MainActivity extends ActionBarActivity {
     String aa[]=new String[51];
     String ab[]=new String[51];
     EditText et;
+    private long mStartRX = 0;
+    private long mStartTX = 0;
+    private WebView browser;
     ArrayList<String> arrayList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tvSupported = (TextView) findViewById(R.id.tvSupported);
-        tvDataUsageWiFi = (TextView) findViewById(R.id.tvDataUsageWiFi);
-        tvDataUsageMobile = (TextView) findViewById(R.id.tvDataUsageMobile);
-        tvDataUsageTotal = (TextView) findViewById(R.id.tvDataUsageTotal);
 
-        final WebView browser = (WebView) findViewById(R.id.webview);
+
+         browser = (WebView) findViewById(R.id.webview);
 
        //getSupportActionBar().setDisplayShowHomeEnabled(true);
       //  getSupportActionBar().setIcon(R.drawable.juspay_icon);
+        mStartRX = TrafficStats.getTotalRxBytes();
 
+        mStartTX = TrafficStats.getTotalTxBytes();
+
+        if (mStartRX == TrafficStats.UNSUPPORTED || mStartTX ==     TrafficStats.UNSUPPORTED) {
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle("Uh Oh!");
+
+            alert.setMessage("Your device does not support traffic stat monitoring.");
+
+            alert.show();
+
+        } else {
+
+            mHandler.postDelayed(mRunnable, 1000);
+
+        }
         WebSettings settings = browser.getSettings();
         settings.setJavaScriptEnabled(true);
         browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
@@ -86,10 +110,8 @@ public class MainActivity extends ActionBarActivity {
         browser.getSettings().setCacheMode( WebSettings.LOAD_DEFAULT ); // load online by default
 
         if ( !isNetworkAvailable() ) { // loading offline
-           // System.out.println("--------------------------------");
-            browser.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
+            browser.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
-      // else {System.out.println("++++++++++++++++++++++++++++++++++++++");}
 
         ////
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -101,10 +123,10 @@ public class MainActivity extends ActionBarActivity {
                 progressBar.show();
                 Log.i(TAG, "Processing webview url click..." + ">>>>>>" + ss);
                 b = Integer.parseInt(ss);
-             //   System.out.println("---------->b" + b);
+                //   System.out.println("---------->b" + b);
                 c = b - a;
 
-            //    System.out.println("result=>web=" + web1 + "-->size :" + c + "kb");
+                //    System.out.println("result=>web=" + web1 + "-->size :" + c + "kb");
                 //  aa[ii]=c+"";
 
                 //ab[ii]=web1;
@@ -126,9 +148,10 @@ public class MainActivity extends ActionBarActivity {
 
             public void onPageFinished(WebView view, String url) {
                 progressBar.dismiss();
+                et.setText(url);
                 Log.i(TAG, "Finished loading URL: " + url + "=======>" + ss);
                 a = Integer.parseInt(ss);
-               // System.out.println("---------->a" + a);
+                // System.out.println("---------->a" + a);
                 String host = ConvertToUrl(url).getHost();
                 //System.out.println(host + "");
                 web1 = host;
@@ -180,9 +203,8 @@ public class MainActivity extends ActionBarActivity {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
-
         et=(EditText) findViewById(R.id.et);
-       et.setOnKeyListener(new View.OnKeyListener() {
+        et.setOnKeyListener(new View.OnKeyListener() {
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -195,41 +217,24 @@ public class MainActivity extends ActionBarActivity {
                 (keyCode == KeyEvent.KEYCODE_ENTER)) {
             // Perform action on key press
 
-            browser.loadUrl("http://www.google.com/#q="+et.getText().toString());
+            browser.loadUrl(et.getText().toString());
             et.setText("");
             return true;
         }
         return false;
     }
 });
-        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        fab1.setOnClickListener(new View.OnClickListener() {
+
+        ImageView bt=(ImageView) findViewById(R.id.fab1);
+        bt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-              //  String host11 = ConvertToUrl(et.getText().toString()).getHost();
-                browser.loadUrl("http://www.google.com/#q="+et.getText().toString());
-                et.setText("");
-               // Snackbar.make(view,et.getText().toString(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            public void onClick(View v) {
+                browser.loadUrl(et.getText().toString());
             }
         });
 
-
 ///
-        if (TrafficStats.getTotalRxBytes() != TrafficStats.UNSUPPORTED && TrafficStats.getTotalTxBytes() != TrafficStats.UNSUPPORTED) {
-            handler.postDelayed(runnable, 0);
 
-            initAdapter();
-            lvApplications = (ListView) findViewById(R.id.lvInstallApplication);
-            lvApplications.setAdapter(adapterApplications);
-
-        } else {
-
-            tvSupported.setVisibility(View.VISIBLE);
-        }
 
         ////
     }
@@ -240,82 +245,7 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    public Handler handler = new Handler();
-    public Runnable runnable = new Runnable() {
-        public void run() {
-            long mobile = TrafficStats.getMobileRxBytes() + TrafficStats.getMobileTxBytes();
-            long total = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes();
-            tvDataUsageWiFi.setText("" + (total - mobile) / 1024 + " Kb");
-            tvDataUsageMobile.setText("" + mobile / 1024 + " Kb");
-            tvDataUsageTotal.setText("" + total / 1024 + " Kb");
-            if (dataUsageTotalLast != total) {
-                dataUsageTotalLast = total;
-                updateAdapter();
-            }
-            handler.postDelayed(runnable, 1000);
-        }
-    };
 
-    public void initAdapter() {
-
-        adapterApplications = new ArrayAdapter<ApplicationItem>(getApplicationContext(), R.layout.item_install_application) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                ApplicationItem app = getItem(position);
-
-                final View result;
-                if (convertView == null) {
-                    result = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_install_application, parent, false);
-                } else {
-                    result = convertView;
-                }
-
-                TextView tvAppName = (TextView) result.findViewById(R.id.tvAppName);
-                TextView tvAppTraffic = (TextView) result.findViewById(R.id.tvAppTraffic);
-
-                // TODO: resize once
-
-                final int iconSize = Math.round(32 * getResources().getDisplayMetrics().density);
-                tvAppName.setCompoundDrawablesWithIntrinsicBounds(
-                        //app.icon,
-                        new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(
-                                ((BitmapDrawable) app.getIcon(getApplicationContext().getPackageManager())).getBitmap(), iconSize, iconSize, true)
-                        ),
-                        null, null, null
-                );
-                if(app.getApplicationLabel(getApplicationContext().getPackageManager()).equals("DataMetric")) {
-                    tvAppName.setText(app.getApplicationLabel(getApplicationContext().getPackageManager()));
-              // System.out.println(app.getApplicationLabel(getApplicationContext().getPackageManager()) + "===>");
-                   // Toast.makeText(MainActivity.this, Integer.toString(app.getTotalUsageKb()), Toast.LENGTH_SHORT).show();
-
-                    tvAppTraffic.setText(Integer.toString(app.getTotalUsageKb()) + " Kb");
-              //  if(app.getApplicationLabel(getApplicationContext().getPackageManager()).equals("DataMetric")) {
-
-                    ss = app.getTotalUsageKb() + "";
-
-                }
-
-                return result;
-            }
-            @Override
-            public int getCount() {
-                return super.getCount();
-            }
-
-            @Override
-            public Filter getFilter() {
-                return super.getFilter();
-            }
-        };
-
-// TODO: resize icon once
-        for (ApplicationInfo app : getApplicationContext().getPackageManager().getInstalledApplications(0)) {
-            ApplicationItem item = ApplicationItem.create(app);
-            if(item != null) {
-                adapterApplications.add(item);
-            }
-        }
-    }
     private URL ConvertToUrl(String urlStr) {
         try {
             URL url = new URL(urlStr);
@@ -330,22 +260,6 @@ public class MainActivity extends ActionBarActivity {
         return null;
     }
 
-
-    public void updateAdapter() {
-        for (int i = 0, l = adapterApplications.getCount(); i < l; i++) {
-            ApplicationItem app = adapterApplications.getItem(i);
-            app.update();
-        }
-
-        adapterApplications.sort(new Comparator<ApplicationItem>() {
-            @Override
-            public int compare(ApplicationItem lhs, ApplicationItem rhs) {
-                return (int)(rhs.getTotalUsageKb() - lhs.getTotalUsageKb());
-            }
-        });
-        adapterApplications.notifyDataSetChanged();
-    }
-
     private boolean isNetworkAvailable() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
@@ -353,4 +267,46 @@ public class MainActivity extends ActionBarActivity {
         //System.out.println("-----------------ddd---------------"+activeNetworkInfo);
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && browser.canGoBack()) {
+            browser.goBack();
+            return true;
+        }
+        else
+        {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    long tx,rx;
+    private final Runnable mRunnable = new Runnable() {
+
+        public void run() {
+            try {
+                ApplicationInfo app = MainActivity.this.getPackageManager().getApplicationInfo("com.example.dayanidhi.datamatric", 0);
+
+
+                // TrafficStats.getUidTxBytes(app.uid);
+                //TrafficStats.getUidRxBytes(app.uid);
+                tx=TrafficStats.getUidTxBytes(app.uid);
+                rx=TrafficStats.getUidRxBytes(app.uid);
+                //    Math.round((tx + rx) / 1024);
+                System.out.println("------------->"+app+"++++"+Math.round((tx + rx) / 1024));
+                //return name;
+            } catch (PackageManager.NameNotFoundException e) {
+                Toast toast = makeText(MainActivity.this, e+"", LENGTH_SHORT);
+                toast.show();
+                e.printStackTrace();
+            }
+            String name=Math.round((tx + rx) / 1024)+"";
+
+           ss=name;
+            mHandler.postDelayed(mRunnable, 1000);
+
+        }
+
+    };
 }

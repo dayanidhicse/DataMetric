@@ -28,9 +28,9 @@ LayoutInflater inflater = context.getLayoutInflater();
 View rowView= inflater.inflate(R.layout.list_single, null, true);
     if(web[position]!=null&&imageId[position]!=null)
     {
-TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
 
-TextView imageView = (TextView) rowView.findViewById(R.id.img);
+        TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
+        TextView imageView = (TextView) rowView.findViewById(R.id.img);
 
         txtTitle.setText(web[position]+" "+"kb");
         imageView.setText(imageId[position]);

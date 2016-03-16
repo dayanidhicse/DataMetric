@@ -25,6 +25,7 @@ public class ApplicationItem {
     public ApplicationItem(ApplicationInfo _app) {
 
         app = _app;
+//System.out.println("0101101010101010101010101010101010101010101"+app);
         update();
     }
 
