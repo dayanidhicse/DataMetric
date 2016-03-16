@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" android:theme="@style/AppTheme1"/>
-        <activity android:name=".Data_Table"/>
+        <activity android:name=".Data_Table" android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

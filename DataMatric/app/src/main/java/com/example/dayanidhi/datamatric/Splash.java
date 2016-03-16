@@ -10,15 +10,15 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        /****** Create Thread that will sleep for 5 seconds *************/
+        /****** Create Thread that will sleep for 2 seconds *************/
         Thread background = new Thread() {
             public void run() {
 
                 try {
-                    // Thread will sleep for 5 seconds
+                    // Thread will sleep for 2 seconds
                     sleep(2*1000);
 
-                    // After 5 seconds redirect to another intent
+                    // After 2 seconds redirect to another intent
                     Intent i=new Intent(getBaseContext(),MainActivity.class);
                     startActivity(i);
 

@@ -241,13 +241,6 @@ public class Data_Table extends AppCompatActivity {
             });
 
 
-            ///
-
-
-
-
-            //divahar commit
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -261,7 +254,6 @@ public class Data_Table extends AppCompatActivity {
         }
     };
     public List getretrive(){
-        //divahar commit
         handler1 = new DataHandler(getBaseContext());
         handler1.open();
 
@@ -291,7 +283,6 @@ public class Data_Table extends AppCompatActivity {
         System.out.println(data);
         return data;
     }
-    //divahar commit finished
     public void listdiaplay(String [] data,String [] website1 ){
 
         CustomList adapter1 = new
@@ -299,16 +290,6 @@ public class Data_Table extends AppCompatActivity {
 
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter1);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Toast.makeText(Data_Table.this, "You Clicked at " + web[+position], Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
 
     }
 
