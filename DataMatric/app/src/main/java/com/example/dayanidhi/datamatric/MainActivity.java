@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -56,17 +57,12 @@ import static android.widget.Toast.makeText;
 
 public class MainActivity extends ActionBarActivity {
 
-    private TextView tvSupported, tvDataUsageWiFi, tvDataUsageMobile, tvDataUsageTotal;
-    private ListView lvApplications;
     private static final String TAG = "Main";
     private ProgressDialog progressBar;
     private Handler mHandler = new Handler();
-    private long dataUsageTotalLast = 0;
     String ss="0",web1,strDate,stringa,stringb,stringc,stringmy,android_id,datausage;;
-
     int a=0,b=0,c=0,ii=0;
     String aa[]=new String[51];
-    String ab[]=new String[51];
     EditText et;
     DataHandler handler1;
     private long mStartRX = 0;
@@ -79,25 +75,20 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Date now = new Date();
-        Date alsoNow = Calendar.getInstance().getTime();
+       // Date alsoNow = Calendar.getInstance().getTime();
         strDate = new SimpleDateFormat("dd-MM-yyyy").format(now);
         String[] str_array = strDate.split("-");
         stringa = str_array[0];
         stringb = str_array[1];
         stringc=str_array[2];
         stringmy = stringb+stringc;
-        System.out.println(stringmy);
         android_id= Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
          browser = (WebView) findViewById(R.id.webview);
-
-       //getSupportActionBar().setDisplayShowHomeEnabled(true);
-      //  getSupportActionBar().setIcon(R.drawable.juspay_icon);
-        mStartRX = TrafficStats.getTotalRxBytes();
-
-        mStartTX = TrafficStats.getTotalTxBytes();
+         mStartRX = TrafficStats.getTotalRxBytes();
+         mStartTX = TrafficStats.getTotalTxBytes();
 
         if (mStartRX == TrafficStats.UNSUPPORTED || mStartTX ==     TrafficStats.UNSUPPORTED) {
 
@@ -114,11 +105,12 @@ public class MainActivity extends ActionBarActivity {
             mHandler.postDelayed(mRunnable, 1000);
 
         }
+
+        //To store the webpage cache
         WebSettings settings = browser.getSettings();
         settings.setJavaScriptEnabled(true);
         browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-///
-        //WebView webView = new WebView( context );
+
         browser.getSettings().setAppCacheMaxSize( 5 * 1024 * 1024 ); // 5MB
         browser.getSettings().setAppCachePath( getApplicationContext().getCacheDir().getAbsolutePath() );
         browser.getSettings().setAllowFileAccess( true );
@@ -130,7 +122,6 @@ public class MainActivity extends ActionBarActivity {
             browser.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
 
-        ////
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 
         progressBar = ProgressDialog.show(MainActivity.this, "", "Loading...");
@@ -138,22 +129,15 @@ public class MainActivity extends ActionBarActivity {
         browser.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 progressBar.show();
-                Log.i(TAG, "Processing webview url click..." + ">>>>>>" + ss);
+                //Log.i(TAG, "Processing webview url click..." + ">>>>>>" + ss);
                 b = Integer.parseInt(ss);
-                //   System.out.println("---------->b" + b);
                 c = b - a;
-
-                //    System.out.println("result=>web=" + web1 + "-->size :" + c + "kb");
-                //  aa[ii]=c+"";
-//divahar commit
                 handler1 = new DataHandler(getBaseContext());
                 handler1.open();
                 handler1.searchinsertupdate(android_id, strDate, web1, Integer.toString(c), stringmy, stringb, stringc);
 
-                Toast.makeText(getBaseContext(),"Data Inserted",Toast.LENGTH_LONG).show();
+               // Toast.makeText(getBaseContext(),"Data Inserted",Toast.LENGTH_LONG).show();
                 handler1.close();
-                //divahar commit finished
-                //ab[ii]=web1;
                 if (arrayList.contains(web1)) {
                     int index = arrayList.indexOf(web1);
                     int old = Integer.parseInt(aa[index]);
@@ -173,7 +157,7 @@ public class MainActivity extends ActionBarActivity {
             public void onPageFinished(WebView view, String url) {
                 progressBar.dismiss();
                 et.setText(url);
-                Log.i(TAG, "Finished loading URL: " + url + "=======>" + ss);
+               // Log.i(TAG, "Finished loading URL: " + url + "=======>" + ss);
                 a = Integer.parseInt(ss);
                 // System.out.println("---------->a" + a);
                 String host = ConvertToUrl(url).getHost();
@@ -257,10 +241,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-///
-
-
-        ////
     }
 
     @Override
@@ -318,7 +298,7 @@ public class MainActivity extends ActionBarActivity {
                 tx=TrafficStats.getUidTxBytes(app.uid);
                 rx=TrafficStats.getUidRxBytes(app.uid);
                 //    Math.round((tx + rx) / 1024);
-                System.out.println("------------->"+app+"++++"+Math.round((tx + rx) / 1024));
+              //  System.out.println("------------->"+app+"++++"+Math.round((tx + rx) / 1024));
                 //return name;
             } catch (PackageManager.NameNotFoundException e) {
                 Toast toast = makeText(MainActivity.this, e+"", LENGTH_SHORT);

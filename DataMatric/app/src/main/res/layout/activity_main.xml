@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="16dp"
-
-    android:paddingBottom="10dp"
-    tools:context=".MainActivity">
-<EditText
-    android:id="@+id/et"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:hint="Enter the url"
-    android:layout_height="45dp"
-    android:singleLine="true"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="44dp"
-    android:layout_marginBottom="2dp"
-     />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:id="@+id/fab1"
-        android:src="@drawable/ic_refresh_black_24dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-    <!--<android.support.design.widget.FloatingActionButton android:id="@+id/fab1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_search_white_24dp"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="10dp"
-        android:layout_alignStart="@+id/fab" />-->
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="2dp"
+    android:paddingBottom="10dp"
+android:background="#e2dfdf"
+    tools:context=".MainActivity">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="5dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="10dp">
+        <EditText
+            android:id="@+id/et"
+            android:layout_width="match_parent"
+            android:hint="Enter the url"
+            android:layout_height="45dp"
+            android:singleLine="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="2dp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:id="@+id/fab1"
+            android:src="@drawable/ic_refresh_black_24dp"
+            android:layout_gravity="end"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+    </android.support.v7.widget.CardView>
+
+
     <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_below="@+id/et"
+        android:layout_below="@+id/card_view"
         android:id="@+id/webview"
         android:paddingRight="1dp"
         android:paddingLeft="1dp"
@@ -48,6 +55,6 @@
         android:src="@drawable/ic_timeline_white_24dp"
         android:layout_marginLeft="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
-        android:layout_alignBottom="@+id/webview"
-        android:layout_alignEnd="@+id/fab1" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/card_view" />
 </RelativeLayout>

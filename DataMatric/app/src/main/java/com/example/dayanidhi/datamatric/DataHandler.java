@@ -95,7 +95,7 @@ public class DataHandler {
             newdatausage = Integer.parseInt(datausage22) + Integer.parseInt(datausage);
             datausageupadte = Integer.toString(newdatausage);
             i = updateContact(deviceid, cid, datausageupadte);
-            System.out.println(i);
+           // System.out.println(i);
             if (i.equals("true")) {
                 System.out.println("Success");
             } else {

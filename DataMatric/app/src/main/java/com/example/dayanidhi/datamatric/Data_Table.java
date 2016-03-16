@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -53,18 +54,14 @@ public class Data_Table extends AppCompatActivity {
     String web[] = new String[51];
     String imageId[] = new String[51];
     ArrayList<String> arrayList = new ArrayList<>();
-    ArrayList<String> we = new ArrayList<>();
-    ArrayList<String> da = new ArrayList<>();
-RadioGroup rg;
+    RadioGroup rg;
     int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data__table);
-        ///
-        ActionBar actionBar = getActionBar();
-
-        ///
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         filter = (ImageView) findViewById(R.id.filt);
         web = getIntent().getExtras().getStringArray("Data");
         arrayList = (ArrayList) getIntent().getSerializableExtra("Web");
@@ -78,7 +75,6 @@ RadioGroup rg;
         for (int ia = 0; ia < ii; ia++) {
             webb[ia] = web[ia];
             imageidd[ia] = imageId[ia];
-            //divahar commit for the normal list display
             Date now = new Date();
             Date alsoNow = Calendar.getInstance().getTime();
             strDate = new SimpleDateFormat("dd-MM-yyyy").format(now);
@@ -110,12 +106,10 @@ RadioGroup rg;
             sad[ab] = datausage[ab];
         }
         listdiaplay(sad, website);
-//divahar commit for the normal list diaplay finished
 
                 filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Snackbar.make(v, "clicked", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 initiatePopupWindow();
             }
         });
@@ -126,12 +120,27 @@ RadioGroup rg;
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Take appropriate action for each action item click
+        switch (item.getItemId()) {
+            case R.id.jusweb:
+                // search action
+                Toast.makeText(getBaseContext(), "Comming Soon",Toast.LENGTH_SHORT).show();
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     List data1;
 
     private PopupWindow pwindo;
-    Button btnClosePopup;
     ImageView img;
     private void initiatePopupWindow() {
         try {
@@ -145,12 +154,10 @@ RadioGroup rg;
             pwindo = new PopupWindow(layout, LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT, true);
             pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-            btnClosePopup = (Button) layout.findViewById(R.id.btn_close_popup);
+          //  btnClosePopup = (Button) layout.findViewById(R.id.btn_close_popup);
            img=(ImageView) layout.findViewById(R.id.btn1_close_popup);
             img.setOnClickListener(cancel_button_click_listener);
 
-            //divahar commit
-///
             rg = (RadioGroup) layout.findViewById(R.id.radioGroup);
             rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -159,8 +166,7 @@ RadioGroup rg;
                     // TODO Auto-generated method stub
 
                     pos = group.getCheckedRadioButtonId();//rg.indexOfChild(findViewById(R.id.radioGroup));
-                    Toast.makeText(getBaseContext(), pos+"",
-                            Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getBaseContext(), pos+"",Toast.LENGTH_SHORT).show();
                     switch (pos) {
                         case 2131492998:
 
@@ -177,37 +183,33 @@ RadioGroup rg;
 
                             }
 
-                            String[] sad1=new String[i1];
+                            String[] month=new String[i1];
                             for(int ab=0;ab<i1;ab++)
                             {
-                                sad1[ab]=datausage[ab];
+                                month[ab]=datausage[ab];
                             }
-                            listdiaplay(sad1,website);
-                         //   Toast.makeText(getBaseContext(), website[0]+"",
-                           //         Toast.LENGTH_SHORT).show();
+                            listdiaplay(month,website);
                             pwindo.dismiss();
                             break;
                         case 2131493000:
-                           // Toast.makeText(getBaseContext(), "You have Clicked RadioButton 2",
-                            //        Toast.LENGTH_SHORT).show();
-                            data1 = getyearretrive();
 
+                            data1 = getyearretrive();
 
                             for (i1 = 0; i1 < data1.size(); i1++) {
                                 a[i1] = data1.get(i1) + "";
                                 String[] str_array1 = a[i1].split("=");
                                 website[i1] = str_array1[0];
                                 datausage[i1] = str_array1[1];
-                                System.out.println(website[i1] + datausage[i1]);
+                                //System.out.println(website[i1] + datausage[i1]);
 
                             }
 
-                            String[] sad2=new String[i1];
+                            String[] year=new String[i1];
                             for(int ab=0;ab<i1;ab++)
                             {
-                                sad2[ab]=datausage[ab];
+                                year[ab]=datausage[ab];
                             }
-                            listdiaplay(sad2,website);
+                            listdiaplay(year,website);
                             pwindo.dismiss();
                             break;
 
@@ -215,6 +217,24 @@ RadioGroup rg;
                             //The default selection is RadioButton 1
                             Toast.makeText(getBaseContext(), "You have Clicked RadioButton 1",
                                     Toast.LENGTH_SHORT).show();
+                            data1 = getyearretrive();
+
+                            for (i1 = 0; i1 < data1.size(); i1++) {
+                                a[i1] = data1.get(i1) + "";
+                                String[] str_array1 = a[i1].split("=");
+                                website[i1] = str_array1[0];
+                                datausage[i1] = str_array1[1];
+                                //System.out.println(website[i1] + datausage[i1]);
+
+                            }
+
+                            String[] def=new String[i1];
+                            for(int ab=0;ab<i1;ab++)
+                            {
+                                def[ab]=datausage[ab];
+                            }
+                            listdiaplay(def,website);
+                            pwindo.dismiss();
                             break;
                     }
                 }
@@ -227,20 +247,6 @@ RadioGroup rg;
 
 
             //divahar commit
-
-            btnClosePopup.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String[] sad1=new String[i1];
-                    for(int ab=0;ab<i1;ab++)
-                    {
-                        sad1[ab]=datausage[ab];
-                    }
-                    listdiaplay(sad1,website);
-                    pwindo.dismiss();
-
-                }
-            });
 
         } catch (Exception e) {
             e.printStackTrace();

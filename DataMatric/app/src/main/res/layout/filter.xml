@@ -29,7 +29,7 @@ android:textSize="30dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
+   <!--  <Button
         android:id="@+id/btn_close_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,11 +39,12 @@ android:textSize="30dp"
         android:layout_below="@+id/txtView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="91dp" />
-
+-->
 <RadioGroup
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
+    android:gravity="center_horizontal"
     android:layout_below="@+id/txtView"
     android:orientation="horizontal"
     android:id="@+id/radioGroup">
@@ -51,7 +52,7 @@ android:textSize="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Month"
-        android:layout_marginLeft="90dp"
+        android:layout_marginLeft="50dp"
         android:textColor="@android:color/white"
         android:id="@+id/radioButton1"
         android:layout_alignTop="@+id/radioButton3" />
