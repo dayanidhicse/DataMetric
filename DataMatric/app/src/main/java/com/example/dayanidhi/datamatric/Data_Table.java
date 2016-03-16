@@ -155,6 +155,27 @@ public class Data_Table extends Activity {
                 }
 
             //divahar commit
+            //divahar commit
+
+            /*List datayear = getyearretrive();
+
+            for (i1 = 0; i1 < data1.size(); i1++) {
+                a[i1] = data1.get(i1) + "";
+                String[] str_array1 = a[i1].split("=");
+                website[i1] = str_array1[0];
+                datausage[i1] = str_array1[1];
+                System.out.println(website[i1] + datausage[i1]);
+
+            }
+            String[] sad1=new String[i1];
+            for(int ab=0;ab<i1;ab++)
+            {
+                sad1[ab]=datausage[ab];
+            }
+            listdiaplay(sad1,website);
+            // divahar commit finished*/
+
+            //divahar commit
             btnClosePopup.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -203,6 +224,17 @@ public class Data_Table extends Activity {
 
         return data;
     }
+
+    /*public List getyearretrive(){
+        handler1 = new DataHandler(getBaseContext());
+        handler1.open();
+
+        List data = handler1.getAllDatamonthonly(stringc);
+        handler1.close();
+        System.out.println(data);
+
+        return data;
+    }*/
     //divahar commit finished
 public void listdiaplay(String [] data,String [] website1 ){
 

@@ -166,6 +166,21 @@ public class DataHandler {
         }
         return listmonth;
     }
+    public List getAllDatayearonly(String date){
+        System.out.println(date);
+        SQLiteDatabase db =dbhelper.getWritableDatabase();
+        String[] columns={DataHandler.WEBSITE,DataHandler.DATAUSAGE};
+        Cursor cursor = db.query(DataHandler.TABLE_NAME,columns,YEAR+"=?",new String[]{date},null,null,null,null);
+        StringBuffer buffer = new StringBuffer();
+        while(cursor.moveToNext()){
+            String cid = cursor.getString(0);
+            String datausage = cursor.getString(1);
+            String newdata = cid+"="+datausage;
+            listmonth.add(newdata);
+
+        }
+        return listmonth;
+    }
 
 }
 
