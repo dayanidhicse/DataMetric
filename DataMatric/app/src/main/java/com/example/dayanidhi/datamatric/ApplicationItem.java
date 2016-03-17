@@ -23,7 +23,6 @@ public class ApplicationItem {
     private boolean isMobil = false;
 
     public ApplicationItem(ApplicationInfo _app) {
-
         app = _app;
         update();
     }
@@ -34,6 +33,7 @@ public class ApplicationItem {
 
         tx = TrafficStats.getUidTxBytes(app.uid);
         rx = TrafficStats.getUidRxBytes(app.uid);
+
         current_tx = current_tx + delta_tx;
         current_rx = current_rx + delta_rx;
 
@@ -55,12 +55,10 @@ public class ApplicationItem {
     }
 
     public int getTotalUsageKb() {
-
-        return Math.round((tx + rx) / 1024);
+        return Math.round((tx + rx)/ 1024);
     }
 
     public String getApplicationLabel(PackageManager _packageManager) {
-
         return _packageManager.getApplicationLabel(app).toString();
     }
 
