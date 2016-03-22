@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">DataMetrics</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="name">Juspay Data Metrics</string>
+    <string name="tagname">know how u spend</string>
+    <string name="title_activity_metrics">MetricsActivity</string>
+    <string name="jusweb">JusWeb</string>
+    <string name="metics">Metrics</string>
+</resources>

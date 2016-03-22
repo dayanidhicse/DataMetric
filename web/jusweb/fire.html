@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RESPOND</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+ 
+    <style>
+        .container {
+            max-width: 700px;
+        }
+ 
+               }
+    </style>
+</head>
+<body>
+ 
+    <div class="container">
+ 
+        <h1>Firebase Chat Application</h1>
+ 
+        <div class="panel panel-default">
+ 
+            
+ 
+            <div class="panel-footer">
+ 
+                <form role="form">
+                    <div class="form-group">
+                        <label for="comments">Please enter your comments here</label>
+                        <input class="form-control" id="comments" name="comments">
+                    </div>
+ 
+                    <button type="submit" id="submit-btn" name="submit-btn"
+                        class="btn btn-success">Send Comments</button>
+ 
+                    <button type="reset" class="btn btn-danger">Clear Comments</button>
+                </form>
+ 
+            </div>
+        </div>
+    </div>
+ 
+    <script src="http://cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script>
+ 
+        var fireBaseRef = new Firebase("https://sizzling-inferno-6307.firebaseio.com/");
+ 
+        $("#submit-btn").bind("click", function() {
+            var comment = $("#comments");
+            var commentValue = $.trim(comment.val());
+ 
+            if (commentValue.length === 0) {
+                alert('Comments are required to continue!');
+            } else {
+                fireBaseRef.push({comment: commentValue}, function(error) {
+                    if (error !== null) {
+                        alert('Unable to push comments to Firebase!');
+                    }
+                });
+ 
+                comment.val("");
+            }
+ 
+            return false;
+        });
+ 
+        fireBaseRef.on('child_added', function(snapshot) {
+            var uniqName = snapshot.name();
+            var comment = snapshot.val()["comment"];
+            alert(comment);
+        });
+ 
+    </script>
+</body>
+</html>
